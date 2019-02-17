@@ -157,5 +157,5 @@ def generateProject(imageLocation):
     return
 
 if __name__ =="__main__":
-    filename = "test.png"
+    filename = sys.argv[1]
     generateProject(filename)
