@@ -32,7 +32,7 @@ import copy
 from Utils import XmlUtil
 from Utils import Constants
 from resource.DrawableWriter import DrawableWriter
-import os
+import os, sys
 from projectUtil.ProjectInfo import ProjectInfo
 
 
