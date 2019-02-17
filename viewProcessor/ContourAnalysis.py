@@ -40,7 +40,7 @@ class ContourAnalysis:
         return {'contours':contours, 'hierarchy':hierarchy}
     
     def findContoursWithCanny(self,imgData):
-        img, contours,hierarchy = cv2.findContours(imgData,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours,hierarchy = cv2.findContours(imgData,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         return {'contours':contours, 'hierarchy':hierarchy}
     
     def analyze(self, imgData, foundContours):

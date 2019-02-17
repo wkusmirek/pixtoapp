@@ -10,7 +10,7 @@ from viewProcessor.Canny import Canny
 from viewProcessor.ContourAnalysis import ContourAnalysis
 from viewProcessor.ContourAnalysis import ContourInfo
 from Utils.Project import Project
-from HierarchyInfo import ViewHierarchyProcessor
+from viewProcessor.HierarchyInfo import ViewHierarchyProcessor
 from Utils.DipCalculator import DipCalculator
 from Utils.Resolution import Resolution
 from Utils.Profile import Profile
@@ -37,7 +37,7 @@ from projectUtil.ProjectInfo import ProjectInfo
 
 
 
-PROJECT_FOLDER = "templates\\uploads\\"
+PROJECT_FOLDER = ""
 
 def generateProjectName(mFileName):
     filename, file_extension = os.path.splitext(mFileName)
@@ -82,7 +82,6 @@ def generateProject(imageLocation):
     #generate project from project template
     ProjectGenerator.setup(mProjectInfo)
 
-
 # dilate and find edges in the provided screenshot
     dst_denoised = cv2.fastNlMeansDenoising(img_gray)
     canny = Canny()
@@ -96,17 +95,24 @@ def generateProject(imageLocation):
 #do the hierarchy processing
     hierarchyProcessor = ViewHierarchyProcessor(contoursOutput.rootView, img_color, canny)
     hierarchyInfo = hierarchyProcessor.process()
-
 # use tesseract to detect the text 
     tesseractOCR = TesseractOCR(dst_denoised,dipCalculator,"English")
     textProcessor = TextProcessor(img_color,dst_denoised, hierarchyInfo.biMapViewRect, tesseractOCR, dipCalculator)
+
 # process text to remove invalid texts    
     textInfo = textProcessor.processText(CColor.Red)
 # Add text boxes to hierarchy    
     hierarchyProcessor.addTextToHierarchy(textInfo)
 
+    #print(contoursOutput.rootView)
+    #print(mProjectName)
+    #print(tesseractOCR)
+    #print(mDrawableWriter)
+    #print(img_color)
+    #print(mOutProjectFolder)
+    #print(dipCalculator)
+    print('cc')
 
-# List support right now not implemented
 #        creator = LayoutCreatorForList(contoursOutput.rootView, mProjectName, tesseractOCR, mDrawableWriter, img_color, mFileName,
 #                           mOutLogFolder, mOutProjectFolder, dipCalculator)
  #   else:
@@ -115,7 +121,7 @@ def generateProject(imageLocation):
 # create layout
     layoutDocument = creator.createDocument()
     layoutFilter = LayoutFilter()
-#
+
     anotateMap = layoutFilter.anotate(layoutDocument)
 
     layoutFilter = RelativeLayoutFilter()
@@ -129,27 +135,27 @@ def generateProject(imageLocation):
 # write style
     styleWriter = creator.mStyleWriter
     styleDocument = styleWriter.mRoot
-    XmlUtil.writeDocumentxml(styleDocument, mOutProjectFolder + "\\app\\src\\main\\res\\values\\styles.xml")
-#
+    XmlUtil.writeDocumentxml(styleDocument, mOutProjectFolder + "/app/src/main/res/values/styles.xml")
+
 #write to color file    
     colorWriter = creator.mColorWriter
     colorDocument = colorWriter.mRoot
-    XmlUtil.writeDocumentxml(colorDocument, mOutProjectFolder + "\\app\\src\\main\\res\\values\\colors.xml")
+    XmlUtil.writeDocumentxml(colorDocument, mOutProjectFolder + "/app/src/main/res/values/colors.xml")
 
 # write to string file
     stringWriter = creator.mWriter
     resourceDocument = stringWriter.mRoot
-    XmlUtil.writeDocumentxml(resourceDocument, mOutProjectFolder + "\\app\\src\\main\\res\\values\\strings.xml")
+    XmlUtil.writeDocumentxml(resourceDocument, mOutProjectFolder + "/app/src/main/res/values/strings.xml")
 
 # save drawable files
     mDrawableWriter.save()
 
 # compile and create a zip of the project
-    ProjectGenerator.prepareProject(mProjectInfo)
+#    ProjectGenerator.prepareProject(mProjectInfo)
 #    ProjectGenerator.unInstallAPK(mOutProjectFolder,mPackageName)
 #    ProjectGenerator.installAPK(mOutProjectFolder,mProjectName)
     return
 
 if __name__ =="__main__":
-    filename = r"download2.png"
+    filename = "test.png"
     generateProject(filename)

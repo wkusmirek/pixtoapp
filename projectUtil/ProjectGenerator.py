@@ -13,7 +13,7 @@ import zipfile
 import os
 debugMode = True
 
-TEMPLATE_FOLDER = r"templates\\"
+TEMPLATE_FOLDER = r"templates/"
 
 def clearContent(projectPath):
     Util.run("rm -rf"+ projectPath+ "*")
@@ -21,13 +21,13 @@ def clearContent(projectPath):
 
 def createProject(projectInfo):
     Util.run("mkdir " +projectInfo.mPath)
-    Util.run("Xcopy /E /I " +TEMPLATE_FOLDER +"templateProject "+ projectInfo.mPath)
-    Util.run("templates\\fart.exe -i -r " +projectInfo.mPath + "\\* templateProject "+ projectInfo.mBaseName)
-    Util.run("templates\\fart.exe -i -r " +projectInfo.mPath + "\\* TEMPLATEPROJECT "+ projectInfo.mBaseName.upper())
-    Util.run("rename " +projectInfo.mPath +"\\templateProject.iml "+ projectInfo.mBaseName + ".iml")
-    Util.run("rename " +projectInfo.mPath +"\\app\\src\\test\\java\\com\\example\\remaui\\templateproject "+projectInfo.mBaseName )
-    Util.run("rename " +projectInfo.mPath +"\\app\\src\\main\\java\\com\\example\\remaui\\templateproject "+projectInfo.mBaseName )
-    Util.run("rename " +projectInfo.mPath +"\\app\\src\\androidTest\\java\\com\\example\\remaui\\templateproject "+projectInfo.mBaseName )
+    Util.run("cp -r " +TEMPLATE_FOLDER +"templateProject/* "+ projectInfo.mPath)
+    #Util.run("templates/fart.exe -i -r " +projectInfo.mPath + "/* templateProject "+ projectInfo.mBaseName)
+    #Util.run("templates/fart.exe -i -r " +projectInfo.mPath + "/* TEMPLATEPROJECT "+ projectInfo.mBaseName.upper())
+    Util.run("mv " +projectInfo.mPath +"/templateProject.iml "+ projectInfo.mBaseName + ".iml")
+    Util.run("mv " +projectInfo.mPath +"/app/src/test/java/com/example/remaui/templateproject "+projectInfo.mBaseName )
+    Util.run("mv " +projectInfo.mPath +"/app/src/main/java/com/example/remaui/templateproject "+projectInfo.mBaseName )
+    Util.run("mv " +projectInfo.mPath +"/app/src/androidTest/java/com/example/remaui/templateproject "+projectInfo.mBaseName )
 
 
 def setup(projectInfo):
@@ -46,7 +46,7 @@ def projectCompile(projectInfo):
 
 def prepareProject(projectInfo):
 
-    zipFileName = "templates\\uploads\\"+projectInfo.mName + ".zip"
+    zipFileName = "templates/uploads/"+projectInfo.mName + ".zip"
     projectCompile(projectInfo)
 
     zipdirectory(projectInfo.mPath,zipFileName )

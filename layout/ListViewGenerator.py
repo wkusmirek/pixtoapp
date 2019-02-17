@@ -3,7 +3,7 @@ from layout import ListInfoData
 from layout import FieldMetadata
 from layout import ListViewData
 from Utils import Constants, Util
-from stringtemplate3 import StringTemplateGroupLoader, StringTemplate
+#from stringtemplate3 import StringTemplateGroupLoader, StringTemplate
 
 class ListViewGenerator:
 

@@ -70,7 +70,6 @@ class TesseractOCR :
         self.mHandle.SetImage(imgPIL)
         boxes = self.mHandle.GetComponentImages(iteratorLevel, True)
 
-        
         for i, (im, box, _, _) in enumerate(boxes):
             
             wrapper = OCRTextWrapper.OCRTextWrapper()
@@ -80,28 +79,28 @@ class TesseractOCR :
             conf = self.mHandle.MeanTextConf()
             wrapper.confidence= conf
             self.mHandle.Recognize()
-            iterator = self.mHandle.GetIterator()
-            fontAttribute = iterator.WordFontAttributes()
+            # wk to nie bylo wykomentowane
+            #iterator = self.mHandle.GetIterator()
+            #fontAttribute = iterator.WordFontAttributes()
             wrapper.x = box['x'] + parentX
             wrapper.y = box['y'] + parentY
             wrapper.width = box['w']
             wrapper.height = box['h']
             wrapper.rect = Rect(wrapper.x, wrapper.y, wrapper.width, wrapper.height)
-#            print(box)
-#        
-            if(fontAttribute != None):
-                wrapper.fontName = fontAttribute['font_name']
-                wrapper.bold = fontAttribute['bold']
-                wrapper.italic = fontAttribute['italic'] 
-                wrapper.underlined = fontAttribute['underlined']
-                wrapper.monospace = fontAttribute['monospace']
-                wrapper.serif = fontAttribute['serif']
-                wrapper.smallcaps = fontAttribute['smallcaps']
-                wrapper.fontSize = fontAttribute['pointsize']
-                wrapper.fontId = fontAttribute['font_id']
+
+            # wk to nie bylo wykomentowane
+            #if(fontAttribute != None):
+            #    wrapper.fontName = fontAttribute['font_name']
+            #    wrapper.bold = fontAttribute['bold']
+            #    wrapper.italic = fontAttribute['italic'] 
+            #    wrapper.underlined = fontAttribute['underlined']
+            #    wrapper.monospace = fontAttribute['monospace']
+            #    wrapper.serif = fontAttribute['serif']
+            #    wrapper.smallcaps = fontAttribute['smallcaps']
+            #    wrapper.fontSize = fontAttribute['pointsize']
+            #    wrapper.fontId = fontAttribute['font_id']
             
             listdata.append(wrapper)
-            
             
         return listdata
 	
